@@ -39,7 +39,7 @@ export async function signupAction(
     await setCookie("access-token", accessToken, {
       secure: true,
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7,
+      maxAge: 60 * 60 * 24 * 1,
       path: "/",
       sameSite: "lax",
     });
