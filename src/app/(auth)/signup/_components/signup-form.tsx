@@ -40,7 +40,7 @@ interface ISignupFormProps {
 
 export default function SignupForm({ role }: ISignupFormProps) {
   const router = useRouter();
-  const isManager = role === UserRole.MANAGER;
+  const isMess = role === UserRole.MESS;
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<SignupFormValues>({
@@ -66,8 +66,6 @@ export default function SignupForm({ role }: ISignupFormProps) {
       const payload = toSignupPayload(values);
       const result = await signupAction(payload, role);
 
-      console.log("signupActionResult", result);
-
       if (result.success) {
         setServerError(null);
         router.push(getDefaultDashboardRoute(role));
@@ -88,11 +86,11 @@ export default function SignupForm({ role }: ISignupFormProps) {
       <fieldset disabled={formState.isSubmitting} className="space-y-4">
         <FieldGroup>
           <h3 className="text-lg font-semibold">
-            {isManager ? "Create your mess" : "Join a mess"}
+            {isMess ? "Create your mess" : "Join a mess"}
           </h3>
 
           {/* role-specific fields */}
-          {isManager ? (
+          {isMess ? (
             <>
               <TextField
                 control={control}
@@ -197,7 +195,7 @@ export default function SignupForm({ role }: ISignupFormProps) {
           >
             {formState.isSubmitting
               ? "Creating account..."
-              : isManager
+              : isMess
                 ? "Create mess"
                 : "Join mess"}
           </Button>

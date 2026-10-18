@@ -1,7 +1,7 @@
-export type IUserRole = "MANAGER" | "MEMBER";
+export type IUserRole = "MESS" | "MEMBER";
 
 export enum UserRole {
-  MANAGER = "MANAGER",
+  MESS = "MESS",
   MEMBER = "MEMBER",
 }
 

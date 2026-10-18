@@ -38,7 +38,7 @@ export const signupSchema = z
       });
     }
 
-    if (data.role === UserRole.MANAGER) {
+    if (data.role === UserRole.MESS) {
       if (!data.messName || data.messName.length < 2) {
         ctx.addIssue({
           code: "custom",
@@ -68,7 +68,7 @@ export type SignupFormValues = z.infer<typeof signupSchema>;
 export function toSignupPayload(values: SignupFormValues): ISignUpUser {
   const { name, email, phone, password, confirmPassword } = values;
 
-  if (values.role === UserRole.MANAGER) {
+  if (values.role === UserRole.MESS) {
     return {
       name,
       email,

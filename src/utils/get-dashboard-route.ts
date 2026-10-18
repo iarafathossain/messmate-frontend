@@ -1,7 +1,7 @@
 import { UserRole } from "@/interfaces/user-type";
 
 const DASHBOARD_BASE_PATHS: Partial<Record<UserRole, string>> = {
-  [UserRole.MANAGER]: "/manager",
+  [UserRole.MESS]: "/mess",
   [UserRole.MEMBER]: "/member",
 };
 

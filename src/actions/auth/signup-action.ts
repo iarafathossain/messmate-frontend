@@ -12,9 +12,7 @@ export async function signupAction(
 ): Promise<IResponseData<{ accessToken: string }>> {
   try {
     const url =
-      role === UserRole.MANAGER
-        ? "/auth/register-mess"
-        : "/auth/register-member";
+      role === UserRole.MESS ? "/auth/register-mess" : "/auth/register-member";
 
     const response = await serverFetch.post(url, {
       headers: {
