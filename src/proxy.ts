@@ -49,6 +49,20 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // redirect to signin if user is not logged in and trying to access protected routes
+  if (!accessToken && routeOwner !== null) {
+    const logInUrl = new URL("/signin", request.url);
+    logInUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(logInUrl);
+  }
+
+  // redirect to signin if user is logged in but trying to access a route not allowed for their role
+  if (accessToken && routeOwner !== null && userRole !== routeOwner) {
+    return NextResponse.redirect(
+      new URL(getDefaultDashboardRoute(userRole as UserRole), request.url),
+    );
+  }
+
   return NextResponse.next();
 }
 
