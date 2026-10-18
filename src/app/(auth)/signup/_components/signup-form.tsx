@@ -6,8 +6,8 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { signupAction } from "@/actions/auth/signup-action";
+import { SubmitButton } from "@/components/shared/submit-button";
 import { TextField } from "@/components/shared/text-field";
-import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldError,
@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { IMessType, UserRole } from "@/interfaces/user-type";
 import { getDefaultDashboardRoute } from "@/utils/get-dashboard-route";
+import Link from "next/link";
 import {
   SignupFormValues,
   signupSchema,
@@ -74,7 +75,6 @@ export default function SignupForm({ role }: ISignupFormProps) {
         setServerError(result.message);
       }
     } catch (err) {
-      console.error("Signup form submission error:", err);
       setServerError(
         err instanceof Error ? err.message : "Something went wrong",
       );
@@ -188,19 +188,24 @@ export default function SignupForm({ role }: ISignupFormProps) {
             </p>
           )}
 
-          <Button
-            type="submit"
+          <SubmitButton
+            isLoading={formState.isSubmitting}
+            label="Go ahead"
             className="w-full"
-            disabled={formState.isSubmitting}
-          >
-            {formState.isSubmitting
-              ? "Creating account..."
-              : isMess
-                ? "Create mess"
-                : "Join mess"}
-          </Button>
+          />
         </FieldGroup>
       </fieldset>
+
+      {/* already have an account? */}
+      <p className="mt-4 text-center text-sm text-muted-foreground">
+        Already have an account?{" "}
+        <Link
+          href="/signin"
+          className="font-medium text-primary underline underline-offset-4"
+        >
+          Sign in
+        </Link>
+      </p>
     </form>
   );
 }
