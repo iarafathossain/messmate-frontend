@@ -33,7 +33,12 @@ export async function saveMealRecord(payload: {
   return handleResponse(response, "Could not save meal record");
 }
 
-export async function saveDeposit(payload: { messMemberId: string; amount: number; note?: string }) {
+export async function saveDeposit(payload: {
+  messMemberId: string;
+  amount: number;
+  depositDate: string;
+  note?: string;
+}) {
   const response = await serverFetch.post("/deposit/upsert", {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -60,6 +65,18 @@ export async function saveExpense(payload: {
     body: JSON.stringify(payload),
   });
   return handleResponse(response, "Could not save expense");
+}
+
+export async function getExpenses() {
+  const response = await serverFetch.get("/expense", { cache: "no-store" });
+  return handleResponse<ExpenseRecord[]>(response, "Could not load expenses");
+}
+
+export interface ExpenseRecord {
+  id: string;
+  description: string;
+  amount: string | number;
+  createdAt: string;
 }
 
 export interface MonthlySheet {

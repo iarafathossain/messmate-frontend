@@ -7,10 +7,15 @@ import { useEffect, useState } from "react";
 export function SectionCards() {
   const [totals, setTotals] = useState({ revenue: 0, expenses: 0 });
   useEffect(() => {
+    function loadTotals() {
     const now = new Date();
     getMonthlySheet(now.getFullYear(), now.getMonth() + 1).then((result) => {
       if (result.success && result.data) setTotals(result.data.totals);
     });
+    }
+    loadTotals();
+    window.addEventListener("messmate:totals-refresh", loadTotals);
+    return () => window.removeEventListener("messmate:totals-refresh", loadTotals);
   }, []);
   return <div className="grid gap-4 md:grid-cols-2">
     <Card><CardHeader><CardDescription>Total revenue</CardDescription><CardTitle>{totals.revenue.toFixed(2)}</CardTitle></CardHeader></Card>

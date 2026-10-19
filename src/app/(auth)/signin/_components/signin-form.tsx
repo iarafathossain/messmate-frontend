@@ -8,12 +8,13 @@ import { getDefaultDashboardRoute } from "@/utils/get-dashboard-route";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { SigninFormValues, signinSchema } from "../_libs/signin-schema";
 
 export default function SigninForm() {
   const [serverError, setServerError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const form = useForm<SigninFormValues>({
@@ -39,8 +40,10 @@ export default function SigninForm() {
           return;
         }
 
-        router.push(getDefaultDashboardRoute(role));
-        form.reset();
+        startTransition(() => {
+          router.push(getDefaultDashboardRoute(role));
+          form.reset();
+        });
       } else {
         setServerError(result.message || "Signin failed");
       }
@@ -53,7 +56,7 @@ export default function SigninForm() {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
-      <fieldset className="space-y-4">
+      <fieldset disabled={formState.isSubmitting || isPending} className="space-y-4">
         <FieldGroup>
           <TextField
             control={control}
@@ -74,7 +77,7 @@ export default function SigninForm() {
         </FieldGroup>
 
         <SubmitButton
-          isLoading={formState.isSubmitting}
+          isLoading={formState.isSubmitting || isPending}
           label="Go ahead"
           className="w-full"
         />

@@ -48,6 +48,7 @@ export function AppSidebar({
         <NavMain items={[
           { title: "Dashboard", url: dashboardPath },
           { title: "Meal sheet", url: `${dashboardPath}/meal-sheet` },
+          { title: "All Expenses", url: `${dashboardPath}/expenses` },
         ]} />
       </SidebarContent>
       <SidebarFooter>

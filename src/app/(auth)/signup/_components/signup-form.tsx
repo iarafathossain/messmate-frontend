@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { signupAction } from "@/actions/auth/signup-action";
@@ -43,6 +43,7 @@ export default function SignupForm({ role }: ISignupFormProps) {
   const router = useRouter();
   const isMess = role === UserRole.MESS;
   const [serverError, setServerError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
@@ -69,8 +70,10 @@ export default function SignupForm({ role }: ISignupFormProps) {
 
       if (result.success) {
         setServerError(null);
-        router.push(getDefaultDashboardRoute(role));
-        form.reset();
+        startTransition(() => {
+          router.push(getDefaultDashboardRoute(role));
+          form.reset();
+        });
       } else {
         setServerError(result.message);
       }
@@ -83,7 +86,7 @@ export default function SignupForm({ role }: ISignupFormProps) {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-      <fieldset disabled={formState.isSubmitting} className="space-y-4">
+      <fieldset disabled={formState.isSubmitting || isPending} className="space-y-4">
         <FieldGroup>
           <h3 className="text-lg font-semibold">
             {isMess ? "Create your mess" : "Join a mess"}
@@ -189,7 +192,7 @@ export default function SignupForm({ role }: ISignupFormProps) {
           )}
 
           <SubmitButton
-            isLoading={formState.isSubmitting}
+            isLoading={formState.isSubmitting || isPending}
             label="Go ahead"
             className="w-full"
           />
