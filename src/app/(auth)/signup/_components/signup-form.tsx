@@ -141,7 +141,7 @@ export default function SignupForm({ role }: ISignupFormProps) {
               control={control}
               name="messCode"
               label="Mess code"
-              placeholder="Ask your mess manager"
+              placeholder="Enter your mess code"
               autoComplete="off"
             />
           )}

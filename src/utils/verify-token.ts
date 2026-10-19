@@ -7,7 +7,7 @@ export const verifyAccessToken = async (token: string) => {
   try {
     const verifiedToken = await jose.jwtVerify<IJosePayloadType>(
       token,
-      new TextEncoder().encode(process.env.JWT_ACCESS_TOKEN_SECRET),
+      new TextEncoder().encode(process.env.ACCESS_TOKEN_SECRET),
     );
 
     return {

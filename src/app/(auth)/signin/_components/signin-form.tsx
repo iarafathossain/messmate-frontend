@@ -6,6 +6,7 @@ import { TextField } from "@/components/shared/text-field";
 import { FieldGroup } from "@/components/ui/field";
 import { getDefaultDashboardRoute } from "@/utils/get-dashboard-route";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -84,6 +85,17 @@ export default function SigninForm() {
           {serverError}
         </p>
       )}
+
+      {/* don't have an account? Create one */}
+      <p className="mt-4 text-sm text-center text-foreground/70">
+        Don&apos;t have an account?{" "}
+        <Link
+          href="/signup/mess"
+          className="font-medium text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        >
+          Create one
+        </Link>
+      </p>
     </form>
   );
 }

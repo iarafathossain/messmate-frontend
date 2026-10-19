@@ -53,12 +53,14 @@ export const signupSchema = z
           message: "Select a mess type",
         });
       }
-    } else if (!data.messCode) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["messCode"],
-        message: "Mess code is required",
-      });
+    } else {
+      if (!data.messCode) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["messCode"],
+          message: "Mess code is required",
+        });
+      }
     }
   });
 
@@ -86,6 +88,6 @@ export function toSignupPayload(values: SignupFormValues): ISignUpUser {
     phone,
     password,
     confirmPassword,
-    messCode: values.messCode!,
+    messCode: values.messCode!.trim(),
   };
 }

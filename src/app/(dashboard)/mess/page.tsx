@@ -1,17 +1,13 @@
-import { ChartAreaInteractive } from "@/app/(dashboard)/_components/chart-area-interactive";
-import { DataTable } from "@/app/(dashboard)/_components/data-table";
 import { SectionCards } from "@/app/(dashboard)/_components/section-cards";
-
-import data from "./data.json";
+import { MealRateForm } from "@/app/(dashboard)/_components/meal-rate-form";
+import { AddExpenseForm } from "./_components/add-expense-form";
 
 export default function MessDashboardPage() {
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+    <div className="flex flex-col gap-4 py-4 px-4 md:gap-6 md:py-6 md:px-6">
       <SectionCards />
-      <div className="px-4 lg:px-6">
-        <ChartAreaInteractive />
-      </div>
-      <DataTable data={data} />
+      <MealRateForm />
+      <AddExpenseForm />
     </div>
   );
 }

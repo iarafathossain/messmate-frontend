@@ -13,50 +13,22 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  ChartBarIcon,
-  CommandIcon,
-  FolderIcon,
-  LayoutDashboardIcon,
-  ListIcon,
-  UsersIcon,
-} from "lucide-react";
+import { CommandIcon } from "lucide-react";
 
-const data = {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "#",
-      icon: <LayoutDashboardIcon />,
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: <ListIcon />,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: <ChartBarIcon />,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: <FolderIcon />,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: <UsersIcon />,
-    },
-  ],
-};
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    name: string;
+    email: string;
+    avatar?: string;
+  };
+  dashboardPath: string;
+}
+
+export function AppSidebar({
+  user,
+  dashboardPath,
+  ...props
+}: AppSidebarProps) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -67,16 +39,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               render={<a href="#" />}
             >
               <CommandIcon className="size-5!" />
-              <span className="text-base font-semibold">Acme Inc.</span>
+              <span className="text-base font-semibold">MessMate</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={[
+          { title: "Dashboard", url: dashboardPath },
+          { title: "Meal sheet", url: `${dashboardPath}/meal-sheet` },
+        ]} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   );

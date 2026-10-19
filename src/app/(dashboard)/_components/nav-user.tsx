@@ -1,5 +1,6 @@
 "use client"
 
+import { logoutAction } from "@/actions/auth/logout-action"
 import {
   Avatar,
   AvatarFallback,
@@ -28,7 +29,7 @@ export function NavUser({
   user: {
     name: string
     email: string
-    avatar: string
+    avatar?: string
   }
 }) {
   const { isMobile } = useSidebar()
@@ -94,9 +95,8 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOutIcon
-              />
+            <DropdownMenuItem onClick={() => logoutAction()}>
+              <LogOutIcon />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
