@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Local Development Setup
 
-## Getting Started
+For the project's features, business logic, database relationships, and technical architecture, see the [Backend README](https://github.com/iarafathossain/messmate-backend).
 
-First, run the development server:
+This guide covers running the backend and frontend locally for development and testing.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Backend Setup
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Clone the repository and install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   ```bash
+   git clone https://github.com/iarafathossain/messmate-backend.git
+   cd messmate-backend
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Create a `.env` file and configure the environment variables:
 
-## Learn More
+   ```env
+   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/mydb?schema=public"
+   PORT=8000
+   NODE_ENV=development
+   ACCESS_TOKEN_SECRET=your_secret_key
+   ACCESS_TOKEN_EXPIRES_IN=1d
+   ACCESS_TOKEN_COOKIE_MAX_AGE=1d
+   FRONTEND_URL=http://localhost:3000
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+   Ensure PostgreSQL is running and the database exists.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Generate the Prisma client and start the development server:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   npx prisma generate
+   npm run dev
+   ```
 
-## Deploy on Vercel
+   Backend URL: `http://localhost:8000`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Frontend Setup
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clone the repository and install dependencies:
+
+   ```bash
+   git clone https://github.com/iarafathossain/messmate-frontend.git
+   cd messmate-frontend
+   npm install
+   ```
+
+2. Create a `.env` file:
+
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+   ACCESS_TOKEN_SECRET=your_secret_key
+   ```
+
+   Use the same secret as the backend if the frontend requires it for token handling.
+
+3. Start the frontend:
+
+   ```bash
+   npm start
+   ```
+
+   Frontend URL: `http://localhost:3000`
+
+**Prerequisites:** Node.js, npm, and PostgreSQL.
